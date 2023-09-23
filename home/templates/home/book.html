@@ -1,0 +1,88 @@
+{% extends 'home/base.html' %}
+{% block head %}
+  <style>
+    .booking-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px;
+      margin-bottom: 100px;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .booking-container label {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .booking-container input[type="date"],
+    .booking-container input[type="number"],
+    .booking-container select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .booking-container select {
+      appearance: none;
+      background-color: #fff;
+    }
+
+    .booking-container select {
+      text-align: center;
+    }
+
+
+  </style>
+{% endblock %}
+{% block title %}Booking{% endblock %}
+{% block body %}
+  <div class="bg6"></div>
+  <div class="booking-container">
+    <h1>Booking</h1>
+    <form action="{% url 'book_room' %}" method="post">
+      {% csrf_token %}
+      <label for="trip-start"><strong>Check-in date:</strong></label>
+      <input type="date" id="trip-start" name="trip-start" />
+
+      <label for="trip-end"><strong>Check-out date:</strong></label>
+      <input type="date" id="trip-end" name="trip-end" />
+
+      <div class="form-outline">
+        <label class="form-label" for="num-adults">Number of Adults</label>
+        <input min="1" max="20" type="number" id="num-adults" name="num-adults" class="form-control" />
+      </div>
+
+      <div class="form-outline">
+        <label class="form-label" for="num-child">Number of Children</label>
+        <input min="1" max="20" type="number" id="num-child" name="num-child" class="form-control" />
+      </div>
+
+      <select class="form-select" id="room-category" name="room-category" aria-label="Select the room">
+        <option selected>Select the room</option>
+        <option value="2">1BHK (AC)</option>
+        <option value="1">1BHK (NON-AC)</option>
+        <option value="4">2BHK (AC)</option>
+        <option value="3">2BHK (NON-AC)</option>
+      </select>
+
+      <button class="button" type="submit">Book Now</button>
+    </form>
+  </div>
+ <script>
+    var today = new Date();
+    var minDate = today.toISOString().split('T')[0];
+    document.getElementById("trip-start").setAttribute("min", minDate);
+    document.getElementById("trip-end").setAttribute("min", minDate);
+
+    var maxDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDate());
+    maxDate = maxDate.toISOString().split('T')[0];
+    document.getElementById("trip-start").setAttribute("max", maxDate);
+    document.getElementById("trip-end").setAttribute("max", maxDate);
+</script>
+{% endblock %}

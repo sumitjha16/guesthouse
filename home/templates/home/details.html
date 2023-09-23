@@ -1,0 +1,115 @@
+{% extends 'home/base.html' %}
+{% block head %}
+  <style>
+    .booking-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 30px;
+      margin-bottom: 100px;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .booking-container label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      width: 30%;
+
+
+    }
+
+    .booking-container input[type="text"],
+    .booking-container input[type="number"],
+    .booking-container input[type="tel"],
+    .booking-container input[type="email"] {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 48%; /* Adjust the width to fit your design */
+    }
+
+    .booking-container .mobile-email-container {
+
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .total-table {
+      margin-top: 20px;
+      width: 90%;
+      border-collapse: collapse;
+    }
+
+    .total-table th,
+    .total-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .total-table th {
+      background-color: #f2f2f2;
+    }
+  </style>
+{% endblock %}
+{% block title %}Fill the Details{% endblock %}
+{% block body %}
+  <div class="bg7"></div>
+     <form action="{% url 'payment' total_amount=total_amount %}" method="POST">
+
+       <div class="booking-container">
+    <h1>Fill the Details</h1>
+
+      {% csrf_token %}
+   <label for="first-name" style="padding-top:17px;"><strong>First Name:</strong></label>
+    <input type="text" id="first-name" name="first-name" required />
+
+
+    <label for="last-name" style="padding-top:17px;"><strong>Last Name:</strong></label>
+    <input type="text" id="last-name" name="last-name" required />
+
+    <div class="mobile-email-container">
+      <div>
+        <label for="mobile-number"><strong>Mobile Number:</strong></label>
+        <input type="tel" id="mobile-number" name="mobile-number" pattern="[0-9]{10}" required />
+      </div>
+      <div>
+        <label for="email"><strong>Email Address:</strong></label>
+        <input type="email" id="email" name="email" required />
+      </div>
+    </div>
+  </div>
+
+<center>
+    <table class="total-table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Room Price</td>
+          <td id="room-price">₹{{ total_amount }}</td>
+        </tr>
+        <tr>
+          <td>Tax (0% OFFER)</td>
+          <td id="tax">₹0</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td id="total-price">₹{{ total_amount }}</td>
+        </tr>
+      </tbody>
+    </table><br>
+
+     <button class="button" type="submit">Pay Now</button></center>
+      <br>
+</form>
+  </div>
+{% endblock %}
